@@ -1,0 +1,43 @@
+html{
+    height: 100%;
+}
+
+body{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+table{
+    position: relative;
+    background-color: chocolate;
+    top: 20px;
+    left: 20px;
+    height: 900px;
+    width: 1500px;
+}
+
+.cell{
+    border: 3px solid black;
+}
+
+.div_honeycomb {
+    
+}
+
+.div_size_honeycomb {
+    position: absolute;
+    background-color: chocolate;
+    top: 20px;
+    right: 20px;
+    width: 350px;
+    height: 350px;
+    outline: 2px solid white;
+}
+
+.input_size_honeycomb {
+    width: 80px;
+    
+}
