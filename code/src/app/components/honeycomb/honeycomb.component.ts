@@ -8,10 +8,14 @@ import { Component, Input } from '@angular/core';
 export class HoneycombComponent {
   colArray : number[] = [];
   rowArray: number[] = [];
-  columns = 5;
-  rows = 5;
   min = 0;
-  max = 300;
+  max = 100;
+  rows = 5;
+  columns = 5;
+  x = 0;
+  y = 0;
+  oldX = 0;
+  oldY = 0;
   cardinality = "North";
   whereIsHeading = "";
 
@@ -19,7 +23,6 @@ export class HoneycombComponent {
 
   setShapeHoneycomb()
   {
-    this.checkHoneycombDimensions();
     this.colArray = [];
     this.rowArray = [];
     for(let i = 0; i < this.columns; i++)
@@ -32,24 +35,59 @@ export class HoneycombComponent {
     }
   }
 
-  private checkHoneycombDimensions()
+  checkHoneycombDimensionsXFront(e: any)
   {
-    if(this.rows < this.min)
+    if(e.target.value < this.min)
     {
+      e.target.value = this.min;
       this.rows = this.min;
     }
-    else if(this.rows > this.max)
+    else if(e.target.value > this.max)
     {
+      e.target.value = this.max;
       this.rows = this.max;
     }
+  }
 
-    if(this.columns < this.min)
+  checkHoneycombDimensionsYFront(e: any)
+  {
+    if(e.target.value < this.min)
     {
+      e.target.value = this.min;
       this.columns = this.min;
     }
-    else if(this.columns > this.max)
+    else if(e.target.value > this.max)
     {
+      e.target.value = this.max;
       this.columns = this.max;
+    }
+  }
+
+  checkPositionXBee(e: any)
+  {
+    if(e.target.value < this.min)
+    {
+      e.target.value = this.min;
+      this.x = this.min;
+    }
+    else if(e.target.value >= this.rows)
+    {
+      e.target.value = this.rows - 1;
+      this.x = this.rows - 1;
+    }
+  }
+
+  checkPositionYBee(e: any)
+  {
+    if(e.target.value < this.min)
+    {
+      e.target.value = this.min;
+      this.y = this.min;
+    }
+    else if(e.target.value >= this.columns)
+    {
+      e.target.value = this.columns - 1;
+      this.y = this.columns - 1;
     }
   }
 
@@ -81,5 +119,15 @@ export class HoneycombComponent {
   clearWhereIsHeading()
   {
     this.whereIsHeading = "";
+  }
+
+  positionBee()
+  {
+    var dir = 'https://i.postimg.cc/2yZXhh5n/bee.png';
+    var table = window.document.getElementById("honeycomb")! as HTMLTableElement;
+    table.rows[this.oldX].cells[this.oldY].setAttribute("style", "background-image: none");
+    table.rows[this.x].cells[this.y].setAttribute("style", "background-image: url(" + dir + ");background-repeat: no-repeat;background-position: center; background-size: contain");
+    this.oldX = this.x;
+    this.oldY = this.y;
   }
 }

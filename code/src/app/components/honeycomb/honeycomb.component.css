@@ -6,16 +6,17 @@ body, html {
     position: absolute;
     background-color: rgb(218, 187, 16);
     width: 100%;
-    height: 100vh;
+    height: 100%;
 }
 
 .div_honeycomb {
     position: absolute;
     width: 1500px;
     height: 880px;
-    overflow: auto;
     top: 30px;
     left: 30px;
+    overflow-x: auto;
+    overflow-y: auto;
 }
 
 .div_controls_honeycomb {
@@ -32,9 +33,8 @@ body, html {
 table {
     position: relative;
     float: left;
-    width : 100vw; 
-    overflow-x: auto;
-    overflow-y: auto;
+    width : 100%; 
+    height: 100%;
 }
 
 .cell {
@@ -84,9 +84,19 @@ table {
     margin: 5px;
 }
 
-.button_size_honeycomb {
+.button_principal {
     position: relative;
     background-color: #04AA6D;
+    border: 1px solid black;
+    font-weight: bold;
+    color: white;
+    padding: 5px;
+    margin: 5px;
+}
+
+.button_options {
+    position: relative;
+    background-color: rgb(84, 129, 236);
     border: 1px solid black;
     font-weight: bold;
     color: white;

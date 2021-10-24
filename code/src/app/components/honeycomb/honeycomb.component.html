@@ -1,7 +1,7 @@
 <body>
     <div class="div_principal">
         <div class="div_honeycomb">
-            <table class="table">
+            <table id="honeycomb">
                 <tr *ngFor="let col of rowArray; index as i">
                     <td class="cell" *ngFor="let col of colArray; index as j"></td>
                 </tr>
@@ -11,78 +11,35 @@
             <label class="label_title">Honeycomb dimensions</label>
             <div display= inline>
                 <label class="label_options">Number of rows:</label>
-                <input [(ngModel)]="rows" class="input_dimensions_honeycomb" type="number" min="0" max ="300" 
-                onKeyUp= 
-                "
-                    if(this.value > 300)
-                    {
-                        this.value = '300';
-                    }
-                    else if(this.value < 0)
-                    {
-                        this.value = '0';
-                    }
-                ">
+                <input [(ngModel)]="rows" class="input_dimensions_honeycomb" type="number" (keyup)="checkHoneycombDimensionsXFront($event)" (click)="checkHoneycombDimensionsXFront($event)">
             </div>
             <div display= inline>
                 <label class="label_options">Number of columns:</label>
-                <input [(ngModel)]="columns" class="input_dimensions_honeycomb" type="number" min="0" max ="300"
-                onKeyUp= 
-                "
-                    if(this.value > 300)
-                    {
-                        this.value = '300';
-                    }
-                    else if(this.value < 0)
-                    {
-                        this.value = '0';
-                    }
-                ">
+                <input [(ngModel)]="columns" class="input_dimensions_honeycomb" type="number" (keyup)="checkHoneycombDimensionsYFront($event)" (click)="checkHoneycombDimensionsYFront($event)">
             </div>
+            <button (click)="setShapeHoneycomb()" class="button_principal" type="button">Create honeycomb</button>
             <label class="label_title">Start position of the bee</label>
             <div display= inline>
                 <label class="label_options">X:</label>
-                <input class="input_dimensions_honeycomb" type="number" min="0" max ="300" 
-                onKeyUp= 
-                "
-                    if(this.value > 300)
-                    {
-                        this.value = '300';
-                    }
-                    else if(this.value < 0)
-                    {
-                        this.value = '0';
-                    }
-                ">
+                <input [(ngModel)]="x" class="input_dimensions_honeycomb" type="number" (keyup)="checkPositionXBee($event)" (click)="checkPositionXBee($event)">
             </div>
             <div display= inline>
                 <label class="label_options">Y:</label>
-                <input class="input_dimensions_honeycomb" type="number" min="0" max ="300"
-                onKeyUp= 
-                "
-                    if(this.value > 300)
-                    {
-                        this.value = '300';
-                    }
-                    else if(this.value < 0)
-                    {
-                        this.value = '0';
-                    }
-                ">
+                <input [(ngModel)]="y" class="input_dimensions_honeycomb" type="number" (keyup)="checkPositionYBee($event)" (click)="checkPositionYBee($event)">
             </div>
             <div display= inline>
                 <label class="label_options">Orientation:</label>
-                <button (click)="setCardinality()" class="button_size_honeycomb" type="button">{{cardinality}}</button>
+                <button (click)="setCardinality()" class="button_options" type="button">{{cardinality}}</button>
             </div>
+            <button (click)="positionBee()" class="button_principal" type="button">Position bee on honeycomb</button>
             <label class="label_title">Change position of the bee</label>
             <div display= block>
-                <button (click)="setWhereIsHeading('L')" class="button_size_honeycomb" type="button">L</button>
-                <button (click)="setWhereIsHeading('R')" class="button_size_honeycomb" type="button">R</button>
-                <button (click)="setWhereIsHeading('M')" class="button_size_honeycomb" type="button">M</button>
-                <button (click)="clearWhereIsHeading()" class="button_size_honeycomb" type="button">Clear</button>
+                <button (click)="setWhereIsHeading('L')" class="button_options" type="button">L</button>
+                <button (click)="setWhereIsHeading('R')" class="button_options" type="button">R</button>
+                <button (click)="setWhereIsHeading('M')" class="button_options" type="button">M</button>
+                <button (click)="clearWhereIsHeading()" class="button_options" type="button">Clear</button>
                 <label class="label_change_position">{{whereIsHeading}}</label>
             </div>
-            <button (click)="setShapeHoneycomb()" class="button_size_honeycomb" type="button">Create honeycomb</button>
         </div>
     </div>
 </body>
