@@ -18,6 +18,11 @@ export class HoneycombComponent {
   oldY = 0;
   cardinality = "North";
   whereIsHeading = "";
+  imgBeeNorth = 'https://i.postimg.cc/2yZXhh5n/bee.png';
+  imgBeeSouth = 'https://i.postimg.cc/CxSny0bg/bee-south.png';
+  imgBeeEast = 'https://i.postimg.cc/J4bHd0Dx/bee-east.png';
+  imgBeeWest = 'https://i.postimg.cc/xTrbRMCq/bee-west.png';
+  urlImg = this.imgBeeNorth;
 
   constructor() { }
 
@@ -107,22 +112,33 @@ export class HoneycombComponent {
 
   setCardinality()
   {
-    if(this.cardinality == "North")
-    {
-      this.cardinality = "South";
-    }
-    else if(this.cardinality == "South")
-    {
-      this.cardinality = "East";
-    }
-    else if(this.cardinality == "East")
-    {
-      this.cardinality = "West";
-    }
-    else
-    {
-      this.cardinality = "North";
-    }
+    switch(this.cardinality) 
+    { 
+      case "North": 
+      { 
+        this.cardinality = "South";
+        this.urlImg = this.imgBeeSouth;
+        break; 
+      } 
+      case "South": 
+      { 
+        this.cardinality = "East";
+        this.urlImg = this.imgBeeEast; 
+        break; 
+      }
+      case "East": 
+      { 
+        this.cardinality = "West";
+        this.urlImg = this.imgBeeWest;
+        break; 
+      }  
+      default: 
+      { 
+        this.cardinality = "North";
+        this.urlImg = this.imgBeeNorth; 
+        break; 
+      } 
+    } 
   }
 
   setWhereIsHeading(command: string)
@@ -137,10 +153,9 @@ export class HoneycombComponent {
 
   positionBee()
   {
-    var dir = 'https://i.postimg.cc/2yZXhh5n/bee.png';
     var table = window.document.getElementById("honeycomb")! as HTMLTableElement;
     table.rows[this.oldX].cells[this.oldY].setAttribute("style", "background-image: none");
-    table.rows[this.x].cells[this.y].setAttribute("style", "background-image: url(" + dir + ");background-repeat: no-repeat;background-position: center; background-size: contain");
+    table.rows[this.x].cells[this.y].setAttribute("style", "background-image: url(" + this.urlImg + ");background-repeat: no-repeat;background-position: center; background-size: contain");
     this.oldX = this.x;
     this.oldY = this.y;
   }
