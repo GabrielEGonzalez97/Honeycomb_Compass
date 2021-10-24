@@ -23,6 +23,7 @@ export class HoneycombComponent {
 
   setShapeHoneycomb()
   {
+    this.refreshControls();
     this.colArray = [];
     this.rowArray = [];
     for(let i = 0; i < this.columns; i++)
@@ -33,6 +34,19 @@ export class HoneycombComponent {
     {
       this.rowArray.push(i);
     }
+  }
+
+  refreshControls()
+  {
+    var table = window.document.getElementById("honeycomb")! as HTMLTableElement;
+    if(table.rows.length != 0)
+    {
+      table.rows[this.oldX].cells[this.oldY].setAttribute("style", "background-image: none");
+    }
+    this.x = 0;
+    this.y = 0;
+    this.cardinality = "North";
+    this.clearWhereIsHeading();
   }
 
   checkHoneycombDimensionsXFront(e: any)
