@@ -12,6 +12,7 @@ export class HoneycombComponent {
   rows = 5;
   min = 0;
   max = 100;
+  cardinality = "North";
 
   constructor() { }
 
@@ -48,6 +49,26 @@ export class HoneycombComponent {
     else if(this.columns > this.max)
     {
       this.columns = this.max;
+    }
+  }
+
+  setCardinality()
+  {
+    if(this.cardinality == "North")
+    {
+      this.cardinality = "South";
+    }
+    else if(this.cardinality == "South")
+    {
+      this.cardinality = "East";
+    }
+    else if(this.cardinality == "East")
+    {
+      this.cardinality = "West";
+    }
+    else
+    {
+      this.cardinality = "North";
     }
   }
 }

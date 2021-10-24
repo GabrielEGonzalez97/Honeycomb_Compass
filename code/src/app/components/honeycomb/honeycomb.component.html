@@ -71,10 +71,17 @@
                 ">
             </div>
             <div display= inline>
-                <label class="label_options">Direction:</label>
-                <input class="input_dimensions_honeycomb" type="text">
+                <label class="label_options">Orientation:</label>
+                <button (click)="setCardinality()" class="button_size_honeycomb" type="button">{{cardinality}}</button>
             </div>
-            <button (click)="setShapeHoneycomb()" class="button_size_honeycomb" type="button">Change</button>
+            <label class="label_title">Change position of the bee</label>
+            <div display= inline>
+                <button (click)="setCardinality()" class="button_size_honeycomb" type="button">L</button>
+                <button (click)="setCardinality()" class="button_size_honeycomb" type="button">R</button>
+                <button (click)="setCardinality()" class="button_size_honeycomb" type="button">M</button>
+                <label class="label_change_position">asassa</label>
+            </div>
+            <button (click)="setShapeHoneycomb()" class="button_size_honeycomb" type="button">Create honeycomb</button>
         </div>
     </div>
 </body>
