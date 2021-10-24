@@ -1,39 +1,80 @@
-<body style="background-color: rgb(218, 187, 16)">
-    <div>
-        <div class="div_size_honeycomb">
-            <span>#rows</span>
-            <input [(ngModel)]="rows" class="input_size_honeycomb" type="number" min="0" max ="20" 
-            onKeyUp= 
-            "
-                if(this.value > 20)
-                {
-                    this.value = '20';
-                }
-                else if(this.value < 0)
-                {
-                    this.value = '0';
-                }
-            ">
-            <input [(ngModel)]="columns" class="input_size_honeycomb" type="number" min="0" max ="20"
-            onKeyUp= 
-            "
-                if(this.value > 20)
-                {
-                    this.value = '20';
-                }
-                else if(this.value < 0)
-                {
-                    this.value = '0';
-                }
-            ">
-            <button (click)="setShapeHoneycomb()" type="button">Change</button>
-        </div>
+<body>
+    <div class="div_principal">
         <div class="div_honeycomb">
             <table class="table">
                 <tr *ngFor="let col of rowArray; index as i">
                     <td class="cell" *ngFor="let col of colArray; index as j"></td>
                 </tr>
             </table>
+        </div>
+        <div class="div_controls_honeycomb">
+            <label class="label_title">Honeycomb dimensions</label>
+            <div display= inline>
+                <label class="label_options">Number of rows:</label>
+                <input [(ngModel)]="rows" class="input_dimensions_honeycomb" type="number" min="0" max ="100" 
+                onKeyUp= 
+                "
+                    if(this.value > 100)
+                    {
+                        this.value = '100';
+                    }
+                    else if(this.value < 0)
+                    {
+                        this.value = '0';
+                    }
+                ">
+            </div>
+            <div display= inline>
+                <label class="label_options">Number of columns:</label>
+                <input [(ngModel)]="columns" class="input_dimensions_honeycomb" type="number" min="0" max ="100"
+                onKeyUp= 
+                "
+                    if(this.value > 100)
+                    {
+                        this.value = '100';
+                    }
+                    else if(this.value < 0)
+                    {
+                        this.value = '0';
+                    }
+                ">
+            </div>
+            <label class="label_title">Start position of the bee</label>
+            <div display= inline>
+                <label class="label_options">X:</label>
+                <input class="input_dimensions_honeycomb" type="number" min="0" max ="100" 
+                onKeyUp= 
+                "
+                    if(this.value > 100)
+                    {
+                        this.value = '100';
+                    }
+                    else if(this.value < 0)
+                    {
+                        this.value = '0';
+                    }
+                ">
+            </div>
+            <div display= inline>
+                <label class="label_options">Y:</label>
+                <input class="input_dimensions_honeycomb" type="number" min="0" max ="100"
+                onKeyUp= 
+                "
+                    if(this.value > 100)
+                    {
+                        this.value = '100';
+                    }
+                    else if(this.value < 0)
+                    {
+                        this.value = '0';
+                    }
+                ">
+            </div>
+            <div display= inline>
+                <label class="label_options">Direction:</label>
+                <input class="input_dimensions_honeycomb" type="text">
+            </div>
+            <button (click)="setShapeHoneycomb()" class="button_size_honeycomb" type="button">Change</button>
         </div>
     </div>
 </body>

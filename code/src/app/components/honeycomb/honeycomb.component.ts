@@ -11,7 +11,7 @@ export class HoneycombComponent {
   columns = 5;
   rows = 5;
   min = 0;
-  max = 20;
+  max = 100;
 
   constructor() { }
 
