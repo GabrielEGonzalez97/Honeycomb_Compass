@@ -11,8 +11,9 @@ export class HoneycombComponent {
   columns = 5;
   rows = 5;
   min = 0;
-  max = 100;
+  max = 300;
   cardinality = "North";
+  whereIsHeading = "";
 
   constructor() { }
 
@@ -70,5 +71,15 @@ export class HoneycombComponent {
     {
       this.cardinality = "North";
     }
+  }
+
+  setWhereIsHeading(command: string)
+  {
+    this.whereIsHeading = this.whereIsHeading + command;
+  }
+
+  clearWhereIsHeading()
+  {
+    this.whereIsHeading = "";
   }
 }

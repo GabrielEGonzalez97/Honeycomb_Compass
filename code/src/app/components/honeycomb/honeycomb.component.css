@@ -11,9 +11,11 @@ body, html {
 
 .div_honeycomb {
     position: absolute;
-    width: 100%;
-    height: 100vh;
-    overflow:auto;
+    width: 1500px;
+    height: 880px;
+    overflow: auto;
+    top: 30px;
+    left: 30px;
 }
 
 .div_controls_honeycomb {
@@ -30,10 +32,9 @@ body, html {
 table {
     position: relative;
     float: left;
-    width: 1500px;
-    height: 880px;
-    top: 30px;
-    left: 30px;
+    width : 100vw; 
+    overflow-x: auto;
+    overflow-y: auto;
 }
 
 .cell {
@@ -63,12 +64,13 @@ table {
 }
 
 .label_change_position {
-    position: relative;
+    position: absolute;
+    overflow-x: auto;
     background-color: gainsboro;
     font-weight: bold;
     color: black;
     font-size: 14px;
-    width: 30px;
+    width: 110px;
     padding: 5px;
     margin: 5px;
     border: 5px;
