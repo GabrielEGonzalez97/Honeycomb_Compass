@@ -23,13 +23,14 @@ export class HoneycombComponent
   east = "East";
   cardinality = this.north;
   whereIsHeading = "";
-  imgBeeNorth = 'https://i.postimg.cc/2yZXhh5n/bee.png';
-  imgBeeSouth = 'https://i.postimg.cc/CxSny0bg/bee-south.png';
-  imgBeeEast = 'https://i.postimg.cc/J4bHd0Dx/bee-east.png';
-  imgBeeWest = 'https://i.postimg.cc/xTrbRMCq/bee-west.png';
+  imgBeeNorth = 'https://i.postimg.cc/s2YhJnWD/bee-north.png';
+  imgBeeSouth = 'https://i.postimg.cc/43kcVCmS/bee-south.png';
+  imgBeeEast = 'https://i.postimg.cc/wTrLxRHH/bee-east.png';
+  imgBeeWest = 'https://i.postimg.cc/RZnfWCVt/bee-west.png';
   urlImg = this.imgBeeNorth;
   viewStartPositionSection = false;
   viewChangePositionSection = false;
+  viewLabelChangePosition = false;
   viewFinalPositionSection = false;
 
   constructor() { }
@@ -53,6 +54,7 @@ export class HoneycombComponent
   private refreshControls()
   {
     this.viewChangePositionSection = false;
+    this.viewLabelChangePosition = false;
     this.viewFinalPositionSection = false;
     var honeycomb = this.getHoneycomb();
     if(this.checkHoneycombExist(honeycomb))
@@ -165,11 +167,13 @@ export class HoneycombComponent
 
   setWhereIsHeading(command: string)
   {
+    this.viewLabelChangePosition = true;
     this.whereIsHeading = this.whereIsHeading + command;
   }
 
   clearWhereIsHeading()
   {
+    this.viewLabelChangePosition = false;
     this.whereIsHeading = "";
   }
 

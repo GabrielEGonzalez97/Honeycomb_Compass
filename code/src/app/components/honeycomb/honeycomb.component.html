@@ -41,7 +41,7 @@
                     <button (click)="setWhereIsHeading('R')" class="button_options" type="button">R</button>
                     <button (click)="setWhereIsHeading('M')" class="button_options" type="button">M</button>
                     <button (click)="clearWhereIsHeading()" class="button_options" type="button">Clear</button>
-                    <label class="label_change_position">{{whereIsHeading}}</label>
+                    <label *ngIf="viewLabelChangePosition" class="label_change_position">{{whereIsHeading}}</label>
                 </div>
                 <button (click)="finalPositionBee()" class="button_see_final_position" type="button">See final position of the bee</button>
             </div>
