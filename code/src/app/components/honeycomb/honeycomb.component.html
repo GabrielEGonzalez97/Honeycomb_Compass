@@ -11,37 +11,37 @@
             <label class="label_title">Honeycomb dimensions</label>
             <div display= inline>
                 <label class="label_options">Number of rows:</label>
-                <input [(ngModel)]="rows" class="input_dimensions_honeycomb" type="number" (keyup)="checkHoneycombDimensionsXFront($event)" (click)="checkHoneycombDimensionsXFront($event)">
+                <input [(ngModel)]="rowsSize" class="input_dimensions_honeycomb" type="number" (keyup)="checkHoneycombDimensionsXFront($event)" (click)="checkHoneycombDimensionsXFront($event)">
             </div>
             <div display= inline>
                 <label class="label_options">Number of columns:</label>
-                <input [(ngModel)]="columns" class="input_dimensions_honeycomb" type="number" (keyup)="checkHoneycombDimensionsYFront($event)" (click)="checkHoneycombDimensionsYFront($event)">
+                <input [(ngModel)]="columnsSize" class="input_dimensions_honeycomb" type="number" (keyup)="checkHoneycombDimensionsYFront($event)" (click)="checkHoneycombDimensionsYFront($event)">
             </div>
             <button (click)="setShapeHoneycomb()" class="button_principal" type="button">Create honeycomb</button>
             <div *ngIf="viewStartPositionSection">
                 <label class="label_title">Start position of the bee</label>
                 <div display= inline>
                     <label class="label_options">X:</label>
-                    <input [(ngModel)]="x" class="input_dimensions_honeycomb" type="number" (keyup)="checkPositionXBee($event)" (click)="checkPositionXBee($event)">
+                    <input [(ngModel)]="actualXBeePosition" class="input_dimensions_honeycomb" type="number" (keyup)="checkPositionXBee($event)" (click)="checkPositionXBee($event)">
                 </div>
                 <div display= inline>
                     <label class="label_options">Y:</label>
-                    <input [(ngModel)]="y" class="input_dimensions_honeycomb" type="number" (keyup)="checkPositionYBee($event)" (click)="checkPositionYBee($event)">
+                    <input [(ngModel)]="actualYBeePosition" class="input_dimensions_honeycomb" type="number" (keyup)="checkPositionYBee($event)" (click)="checkPositionYBee($event)">
                 </div>
                 <div display= inline>
                     <label class="label_options">Orientation:</label>
-                    <button (click)="setCardinality()" class="button_options" type="button">{{cardinality}}</button>
+                    <button (click)="setCardinality()" class="button_options" type="button">{{cardinality.cardinality}}</button>
                 </div>
                 <button (click)="positionBee()" class="button_principal" type="button">Position bee on honeycomb</button>
             </div>
             <div *ngIf="viewChangePositionSection">
                 <label class="label_title">Change position of the bee</label>
                 <div display= block>
-                    <button (click)="setWhereIsHeading('L')" class="button_options" type="button">L</button>
-                    <button (click)="setWhereIsHeading('R')" class="button_options" type="button">R</button>
-                    <button (click)="setWhereIsHeading('M')" class="button_options" type="button">M</button>
-                    <button (click)="clearWhereIsHeading()" class="button_options" type="button">Clear</button>
-                    <label *ngIf="viewLabelChangePosition" class="label_change_position">{{whereIsHeading}}</label>
+                    <button (click)="setDirectionsInstructions('L')" class="button_options" type="button">L</button>
+                    <button (click)="setDirectionsInstructions('R')" class="button_options" type="button">R</button>
+                    <button (click)="setDirectionsInstructions('M')" class="button_options" type="button">M</button>
+                    <button (click)="clearDirectionsInstructions()" class="button_options" type="button">Clear</button>
+                    <label *ngIf="viewLabelChangePosition" class="label_change_position">{{directionsInstructions}}</label>
                 </div>
                 <button (click)="finalPositionBee()" class="button_see_final_position" type="button">See final position of the bee</button>
             </div>
@@ -49,11 +49,11 @@
                 <label class="label_title_final_position">Final position of the bee</label>
                 <div display= block>
                     <label class="label_final_results">X:</label>
-                    <label class="label_final_position">{{oldX}}</label>
+                    <label class="label_final_position">{{oldXBeePosition}}</label>
                     <label class="label_final_results">Y:</label>
-                    <label class="label_final_position">{{rows - oldY}}</label>
+                    <label class="label_final_position">{{rowsSize - oldYBeePosition}}</label>
                     <label class="label_final_results">Orientation:</label>
-                    <label class="label_final_orientation">{{cardinality}}</label>
+                    <label class="label_final_orientation">{{cardinality.cardinality}}</label>
                 </div>
             </div>
             <div *ngIf="viewErrorSection">

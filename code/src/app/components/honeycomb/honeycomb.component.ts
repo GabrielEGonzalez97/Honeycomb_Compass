@@ -9,41 +9,44 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 export class HoneycombComponent
 {
+  readonly REST_API_URL = 'http://127.0.0.1:5002/';
+  readonly MIN_DIMENSION = 0;
+  readonly MAX_DIMENSION = 100;
+  readonly NORTH = "North";
+  readonly SOUTH = "South";
+  readonly WEST = "West";
+  readonly EAST = "East";
+  readonly URL_IMG_BEE_NORTH = 'https://i.postimg.cc/s2YhJnWD/bee-north.png';
+  readonly URL_IMG_BEE_SOUTH = 'https://i.postimg.cc/43kcVCmS/bee-south.png';
+  readonly URL_IMG_BEE_EAST = 'https://i.postimg.cc/wTrLxRHH/bee-east.png';
+  readonly URL_IMG_BEE_WEST = 'https://i.postimg.cc/RZnfWCVt/bee-west.png';
+
   colArray : number[] = [];
   rowArray: number[] = [];
-  min = 0;
-  max = 100;
-  rows = 5;
-  columns = 5;
-  x = 0;
-  y = 0;
-  oldX = 0;
-  oldY = 0;
-  north = "North";
-  south = "South";
-  west = "West";
-  east = "East";
-  cardinality = this.north;
-  whereIsHeading = "";
-  imgBeeNorth = 'https://i.postimg.cc/s2YhJnWD/bee-north.png';
-  imgBeeSouth = 'https://i.postimg.cc/43kcVCmS/bee-south.png';
-  imgBeeEast = 'https://i.postimg.cc/wTrLxRHH/bee-east.png';
-  imgBeeWest = 'https://i.postimg.cc/RZnfWCVt/bee-west.png';
-  urlImg = this.imgBeeNorth;
+  rowsSize = 5;
+  columnsSize = 5;
+  actualXBeePosition = 0;
+  actualYBeePosition = 0;
+  oldXBeePosition = 0;
+  oldYBeePosition = 0;
+
+  cardinality: Record<string, string> = {
+    cardinality: this.NORTH,
+    urlImg: this.URL_IMG_BEE_NORTH,
+  }; 
+  directionsInstructions = "";
+
   viewStartPositionSection = false;
   viewChangePositionSection = false;
   viewLabelChangePosition = false;
   viewFinalPositionSection = false;
   viewErrorSection = false;
+
   serverData = JSON;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) 
+  { 
 
-  sayHi() {
-    this.httpClient.get('http://127.0.0.1:5002/').subscribe(data => {
-      this.serverData = data as JSON;
-      console.log(this.serverData);
-    })
   }
 
   setShapeHoneycomb()
@@ -51,11 +54,11 @@ export class HoneycombComponent
     this.refreshControls();
     this.colArray = [];
     this.rowArray = [];
-    for(let i = 0; i < this.columns + 1; i++)
+    for(let i = 0; i < this.columnsSize + 1; i++)
     {
       this.colArray.push(i);
     }
-    for(let i = 0; i < this.rows + 1; i++)
+    for(let i = 0; i < this.rowsSize + 1; i++)
     {
       this.rowArray.push(i);
     }
@@ -71,15 +74,18 @@ export class HoneycombComponent
     var honeycomb = this.getHoneycomb();
     if(this.checkHoneycombExist(honeycomb))
     {
-      if(this.isValidPosition(this.oldX, this.oldY))
+      if(this.isValidPosition(this.oldXBeePosition, this.oldYBeePosition))
       {
-        honeycomb.rows[this.oldX].cells[this.oldY].setAttribute("style", "background-image: none");
+        honeycomb.rows[this.oldXBeePosition].cells[this.oldYBeePosition].setAttribute("style", "background-image: none");
       }
     }
-    this.x = 0;
-    this.y = 0;
-    this.cardinality = this.north;
-    this.clearWhereIsHeading();
+    this.actualXBeePosition = 0;
+    this.actualYBeePosition = 0;
+    this.cardinality = {
+      cardinality: this.NORTH,
+      urlImg: this.URL_IMG_BEE_NORTH,
+    }; 
+    this.clearDirectionsInstructions();
   }
 
   private getHoneycomb() : HTMLTableElement
@@ -94,150 +100,157 @@ export class HoneycombComponent
 
   checkHoneycombDimensionsXFront(e: any)
   {
-    if(e.target.value < this.min)
+    if(e.target.value < this.MIN_DIMENSION)
     {
-      e.target.value = this.min;
-      this.rows = this.min;
+      e.target.value = this.MIN_DIMENSION;
+      this.rowsSize = this.MIN_DIMENSION;
     }
-    else if(e.target.value > this.max)
+    else if(e.target.value > this.MAX_DIMENSION)
     {
-      e.target.value = this.max;
-      this.rows = this.max;
+      e.target.value = this.MAX_DIMENSION;
+      this.rowsSize = this.MAX_DIMENSION;
     }
   }
 
   checkHoneycombDimensionsYFront(e: any)
   {
-    if(e.target.value < this.min)
+    if(e.target.value < this.MIN_DIMENSION)
     {
-      e.target.value = this.min;
-      this.columns = this.min;
+      e.target.value = this.MIN_DIMENSION;
+      this.columnsSize = this.MIN_DIMENSION;
     }
-    else if(e.target.value > this.max)
+    else if(e.target.value > this.MAX_DIMENSION)
     {
-      e.target.value = this.max;
-      this.columns = this.max;
+      e.target.value = this.MAX_DIMENSION;
+      this.columnsSize = this.MAX_DIMENSION;
     }
   }
 
   checkPositionXBee(e: any)
   {
-    if(e.target.value < this.min)
+    if(e.target.value < this.MIN_DIMENSION)
     {
-      e.target.value = this.min;
-      this.x = this.min;
+      e.target.value = this.MIN_DIMENSION;
+      this.actualXBeePosition = this.MIN_DIMENSION;
     }
-    else if(e.target.value >= this.rows)
+    else if(e.target.value >= this.rowsSize)
     {
-      e.target.value = this.rows;
-      this.x = this.rows;
+      e.target.value = this.rowsSize;
+      this.actualXBeePosition = this.rowsSize;
     }
   }
 
   checkPositionYBee(e: any)
   {
-    if(e.target.value < this.min)
+    if(e.target.value < this.MIN_DIMENSION)
     {
-      e.target.value = this.min;
-      this.y = this.min;
+      e.target.value = this.MIN_DIMENSION;
+      this.actualYBeePosition = this.MIN_DIMENSION;
     }
-    else if(e.target.value >= this.columns)
+    else if(e.target.value >= this.columnsSize)
     {
-      e.target.value = this.columns;
-      this.y = this.columns;
+      e.target.value = this.columnsSize;
+      this.actualYBeePosition = this.columnsSize;
     }
   }
 
   setCardinality()
   {
-    switch(this.cardinality) 
+    switch(this.cardinality.cardinality) 
     { 
-      case this.north: 
+      case this.NORTH: 
       { 
-        this.cardinality = this.south;
+        this.cardinality = {
+          cardinality: this.SOUTH,
+          urlImg: this.URL_IMG_BEE_SOUTH,
+        }; 
         break; 
       } 
-      case this.south: 
+      case this.SOUTH: 
       { 
-        this.cardinality = this.east;
+        this.cardinality = {
+          cardinality: this.EAST,
+          urlImg: this.URL_IMG_BEE_EAST,
+        }; 
         break; 
       }
-      case this.east: 
+      case this.EAST: 
       { 
-        this.cardinality = this.west;
+        this.cardinality = {
+          cardinality: this.WEST,
+          urlImg: this.URL_IMG_BEE_WEST,
+        }; 
         break; 
       }  
       default: 
       { 
-        this.cardinality = this.north;
+        this.cardinality = {
+          cardinality: this.NORTH,
+          urlImg: this.URL_IMG_BEE_NORTH,
+        }; 
         break; 
       } 
     } 
   }
 
-  setWhereIsHeading(command: string)
+  private getUrlImg(cardinality: string): string
+  {
+    switch(cardinality) 
+    { 
+      case this.NORTH: 
+      { 
+        return this.URL_IMG_BEE_NORTH;
+      } 
+      case this.SOUTH: 
+      { 
+        return this.URL_IMG_BEE_SOUTH;
+      }
+      case this.EAST: 
+      { 
+        return this.URL_IMG_BEE_EAST;
+      }  
+      default: 
+      { 
+        return this.URL_IMG_BEE_WEST;
+      } 
+    } 
+  }
+
+  setDirectionsInstructions(newInstruction: string)
   {
     this.viewLabelChangePosition = true;
-    this.whereIsHeading = this.whereIsHeading + command;
+    this.directionsInstructions = this.directionsInstructions + newInstruction;
   }
 
-  clearWhereIsHeading()
+  clearDirectionsInstructions()
   {
     this.viewLabelChangePosition = false;
-    this.whereIsHeading = "";
-  }
-
-  setUrlImg()
-  {
-    switch(this.cardinality) 
-    { 
-      case this.north: 
-      { 
-        this.urlImg = this.imgBeeNorth;
-        break; 
-      } 
-      case this.south: 
-      { 
-        this.urlImg = this.imgBeeSouth; 
-        break; 
-      }
-      case this.east: 
-      { 
-        this.urlImg = this.imgBeeEast;
-        break; 
-      }  
-      default: 
-      { 
-        this.urlImg = this.imgBeeWest; 
-        break; 
-      } 
-    } 
+    this.directionsInstructions = "";
   }
 
   positionBee()
   {
-    this.moveBee(this.x, this.rows - this.y);
+    this.moveBee(this.actualXBeePosition, this.rowsSize - this.actualYBeePosition);
     this.viewChangePositionSection = true;
   }
 
   private moveBee(newX : number, newY: number)
   {
     var honeycomb = this.getHoneycomb();
-    if(this.isValidPosition(this.oldX, this.oldY))
+    if(this.isValidPosition(this.oldXBeePosition, this.oldYBeePosition))
     {
-      honeycomb.rows[this.oldY].cells[this.oldX].setAttribute("style", "background-image: none");
+      honeycomb.rows[this.oldYBeePosition].cells[this.oldXBeePosition].setAttribute("style", "background-image: none");
     }
 
-    this.setUrlImg();
     this.viewErrorSection = false;
-    honeycomb.rows[newY].cells[newX].setAttribute("style", "background-image: url(" + this.urlImg + ");background-repeat: no-repeat;background-position: center; background-size: contain");
-    this.oldX = newX;
-    this.oldY = newY;
+    honeycomb.rows[newY].cells[newX].setAttribute("style", "background-image: url(" + this.cardinality.urlImg + ");background-repeat: no-repeat;background-position: center; background-size: contain");
+    this.oldXBeePosition = newX;
+    this.oldYBeePosition = newY;
   }
 
   private isValidPosition(x: number, y: number) 
   {
-    return ((y >= this.min && y <= this.rows) && (x >= this.min && x <= this.columns))
+    return ((y >= this.MIN_DIMENSION && y <= this.rowsSize) && (x >= this.MIN_DIMENSION && x <= this.columnsSize))
   }
 
   finalPositionBee()
@@ -246,40 +259,40 @@ export class HoneycombComponent
     let params = new HttpParams();
 
     // Begin assigning parameters
-    params = params.append('xPos', this.oldX);
-    params = params.append('yPos', this.rows - this.oldY);
-    params = params.append('rows', this.rows);
-    params = params.append('columns', this.columns);
-    params = params.append('cardinality', this.cardinality);
-    params = params.append('whereIsHeading', this.whereIsHeading);
+    params = params.append('xPosBee', this.oldXBeePosition);
+    params = params.append('yPosBee', this.rowsSize - this.oldYBeePosition);
+    params = params.append('rowsSize', this.rowsSize);
+    params = params.append('columnsSize', this.columnsSize);
+    params = params.append('cardinality', this.cardinality.cardinality);
+    params = params.append('directionsInstructions', this.directionsInstructions);
 
     // Make the API call using the new parameters.
-    this.httpClient.get('http://127.0.0.1:5002/final_position', { params: params }).subscribe(data => {
+    this.httpClient.get(this.REST_API_URL + '/final_position', { params: params }).subscribe(data => {
       this.serverData = data as JSON;
+      var serverData = this.serverData as any;
+      var newXBeePosition = serverData.xPosBee;
+      var newYBeePosition = serverData.yPosBee;
+      if(this.isValidPosition(newXBeePosition, newYBeePosition))
+      {
+        this.actualXBeePosition = newXBeePosition;
+        this.actualYBeePosition = newYBeePosition;
+        this.cardinality.cardinality = serverData.cardinality;
+        this.cardinality.urlImg = this.getUrlImg(this.cardinality.cardinality);
+        this.moveBee(this.actualXBeePosition, this.rowsSize - this.actualYBeePosition);
+      }
+      else
+      {
+        this.viewErrorSection = true;
+      }
+
+      if(this.viewErrorSection)
+      {
+        this.viewFinalPositionSection = false;
+      }
+      else
+      {
+        this.viewFinalPositionSection = true;
+      }
     })
-
-    var bee = this.serverData as any;
-    var newX = bee.xPos;
-    var newY = bee.yPos;
-    if(this.isValidPosition(newX, newY))
-    {
-      this.x = newX;
-      this.y = newY;
-      this.cardinality = bee.cardinality;
-      this.moveBee(this.x, this.rows - this.y);
-    }
-    else
-    {
-      this.viewErrorSection = true;
-    }
-
-    if(this.viewErrorSection)
-    {
-      this.viewFinalPositionSection = false;
-    }
-    else
-    {
-      this.viewFinalPositionSection = true;
-    }
   }
 }
