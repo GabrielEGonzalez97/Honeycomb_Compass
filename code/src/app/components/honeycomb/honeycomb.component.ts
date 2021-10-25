@@ -1,11 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-honeycomb',
   templateUrl: './honeycomb.component.html',
   styleUrls: ['./honeycomb.component.css']
 })
-export class HoneycombComponent 
+
+export class HoneycombComponent
 {
   colArray : number[] = [];
   rowArray: number[] = [];
@@ -33,8 +35,16 @@ export class HoneycombComponent
   viewLabelChangePosition = false;
   viewFinalPositionSection = false;
   viewErrorSection = false;
+  serverData = JSON;
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
+
+  sayHi() {
+    this.httpClient.get('http://127.0.0.1:5002/').subscribe(data => {
+      this.serverData = data as JSON;
+      console.log(this.serverData);
+    })
+  }
 
   setShapeHoneycomb()
   {
@@ -61,12 +71,14 @@ export class HoneycombComponent
     var honeycomb = this.getHoneycomb();
     if(this.checkHoneycombExist(honeycomb))
     {
-      honeycomb.rows[this.oldX].cells[this.oldY].setAttribute("style", "background-image: none");
+      if(this.isValidPosition(this.oldX, this.oldY))
+      {
+        honeycomb.rows[this.oldX].cells[this.oldY].setAttribute("style", "background-image: none");
+      }
     }
     this.x = 0;
     this.y = 0;
     this.cardinality = this.north;
-    this.urlImg = this.imgBeeNorth;
     this.clearWhereIsHeading();
   }
 
@@ -143,25 +155,21 @@ export class HoneycombComponent
       case this.north: 
       { 
         this.cardinality = this.south;
-        this.urlImg = this.imgBeeSouth;
         break; 
       } 
       case this.south: 
       { 
         this.cardinality = this.east;
-        this.urlImg = this.imgBeeEast; 
         break; 
       }
       case this.east: 
       { 
         this.cardinality = this.west;
-        this.urlImg = this.imgBeeWest;
         break; 
       }  
       default: 
       { 
         this.cardinality = this.north;
-        this.urlImg = this.imgBeeNorth; 
         break; 
       } 
     } 
@@ -179,56 +187,29 @@ export class HoneycombComponent
     this.whereIsHeading = "";
   }
 
-  getLeftActualCardinality() : string
+  setUrlImg()
   {
     switch(this.cardinality) 
     { 
       case this.north: 
       { 
-        this.urlImg = this.imgBeeWest; 
-        return this.west;
+        this.urlImg = this.imgBeeNorth;
+        break; 
       } 
-      case this.west: 
-      { 
-        this.urlImg = this.imgBeeSouth; 
-        return this.south; 
-      }
       case this.south: 
       { 
-        this.urlImg = this.imgBeeEast; 
-        return this.east;
+        this.urlImg = this.imgBeeSouth; 
+        break; 
       }
-      default: 
-      { 
-        this.urlImg = this.imgBeeNorth; 
-        return this.north; 
-      } 
-    } 
-  }
-
-  getRightActualCardinality() : string
-  {
-    switch(this.cardinality) 
-    { 
-      case this.north: 
-      { 
-        this.urlImg = this.imgBeeEast; 
-        return this.east;
-      } 
       case this.east: 
       { 
-        this.urlImg = this.imgBeeSouth; 
-        return this.south;
-      }
-      case this.south: 
-      { 
-        this.urlImg = this.imgBeeWest; 
-        return this.west; 
+        this.urlImg = this.imgBeeEast;
+        break; 
       }  
       default: 
       { 
-        this.urlImg = this.imgBeeNorth; 
-        return this.north;
+        this.urlImg = this.imgBeeWest; 
+        break; 
       } 
     } 
   }
@@ -242,66 +223,56 @@ export class HoneycombComponent
   private moveBee(newX : number, newY: number)
   {
     var honeycomb = this.getHoneycomb();
-    if(this.oldY <= this.rows && this.oldX <= this.columns)
+    if(this.isValidPosition(this.oldX, this.oldY))
     {
       honeycomb.rows[this.oldY].cells[this.oldX].setAttribute("style", "background-image: none");
     }
 
-    if((newY >= this.min && newY <= this.rows) && (newX >= this.min && newX <= this.columns))
-    {
-      this.viewErrorSection = false;
-      honeycomb.rows[newY].cells[newX].setAttribute("style", "background-image: url(" + this.urlImg + ");background-repeat: no-repeat;background-position: center; background-size: contain");
-      this.oldX = newX;
-      this.oldY = newY;
-    }
-    else
-    {
-      this.viewErrorSection = true;
-      this.viewChangePositionSection = false;
-    }
+    this.setUrlImg();
+    this.viewErrorSection = false;
+    honeycomb.rows[newY].cells[newX].setAttribute("style", "background-image: url(" + this.urlImg + ");background-repeat: no-repeat;background-position: center; background-size: contain");
+    this.oldX = newX;
+    this.oldY = newY;
+  }
+
+  private isValidPosition(x: number, y: number) 
+  {
+    return ((y >= this.min && y <= this.rows) && (x >= this.min && x <= this.columns))
   }
 
   finalPositionBee()
   {
-    var canMove = true;
-    for (let i = 0; i < this.whereIsHeading.length && canMove; i++) 
+    // Initialize Params Object
+    let params = new HttpParams();
+
+    // Begin assigning parameters
+    params = params.append('xPos', this.oldX);
+    params = params.append('yPos', this.rows - this.oldY);
+    params = params.append('rows', this.rows);
+    params = params.append('columns', this.columns);
+    params = params.append('cardinality', this.cardinality);
+    params = params.append('whereIsHeading', this.whereIsHeading);
+
+    // Make the API call using the new parameters.
+    this.httpClient.get('http://127.0.0.1:5002/final_position', { params: params }).subscribe(data => {
+      this.serverData = data as JSON;
+    })
+
+    var bee = this.serverData as any;
+    var newX = bee.xPos;
+    var newY = bee.yPos;
+    if(this.isValidPosition(newX, newY))
     {
-      const command = this.whereIsHeading.charAt(i);
-      if(command == 'L')
-      {
-        this.cardinality = this.getLeftActualCardinality();
-      }
-      else if(command == 'R')
-      {
-        this.cardinality = this.getRightActualCardinality();
-      }
-      else if(command == 'M')
-      {
-        switch(this.cardinality) 
-        { 
-          case this.north: 
-          { 
-            this.moveBee(this.oldX, this.oldY - 1);
-            break;
-          } 
-          case this.east: 
-          { 
-            this.moveBee(this.oldX + 1, this.oldY);
-            break;
-          }
-          case this.south: 
-          { 
-            this.moveBee(this.oldX, this.oldY + 1);
-            break;
-          }  
-          default: 
-          { 
-            this.moveBee(this.oldX - 1, this.oldY);
-            break;
-          } 
-        } 
-      }
+      this.x = newX;
+      this.y = newY;
+      this.cardinality = bee.cardinality;
+      this.moveBee(this.x, this.rows - this.y);
     }
+    else
+    {
+      this.viewErrorSection = true;
+    }
+
     if(this.viewErrorSection)
     {
       this.viewFinalPositionSection = false;
