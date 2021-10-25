@@ -4,7 +4,7 @@ body, html {
 
 .div_principal {
     position: absolute;
-    background-color: rgb(218, 187, 16);
+    background-color: rgb(253, 255, 112);
     width: 100%;
     height: 100%;
 }
@@ -90,6 +90,17 @@ table {
     border: 1px solid black;
     font-weight: bold;
     color: white;
+    padding: 5px;
+    margin: 5px;
+}
+
+.button_see_final_position {
+    position: relative;
+    background-color: #04AA6D;
+    border: 1px solid black;
+    font-weight: bold;
+    color: white;
+    top: 10px;
     padding: 5px;
     margin: 5px;
 }

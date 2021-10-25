@@ -5,9 +5,14 @@ import { Component, Input } from '@angular/core';
   templateUrl: './honeycomb.component.html',
   styleUrls: ['./honeycomb.component.css']
 })
-export class HoneycombComponent {
+export class HoneycombComponent 
+{
   colArray : number[] = [];
   rowArray: number[] = [];
+  north = "North";
+  south = "South";
+  west = "West";
+  east = "East";
   min = 0;
   max = 100;
   rows = 5;
@@ -16,7 +21,7 @@ export class HoneycombComponent {
   y = 0;
   oldX = 0;
   oldY = 0;
-  cardinality = "North";
+  cardinality = this.north;
   whereIsHeading = "";
   imgBeeNorth = 'https://i.postimg.cc/2yZXhh5n/bee.png';
   imgBeeSouth = 'https://i.postimg.cc/CxSny0bg/bee-south.png';
@@ -31,27 +36,38 @@ export class HoneycombComponent {
     this.refreshControls();
     this.colArray = [];
     this.rowArray = [];
-    for(let i = 0; i < this.columns; i++)
+    for(let i = 0; i < this.columns + 1; i++)
     {
       this.colArray.push(i);
     }
-    for(let i = 0; i < this.rows; i++)
+    for(let i = 0; i < this.rows + 1; i++)
     {
       this.rowArray.push(i);
     }
   }
 
-  refreshControls()
+  private refreshControls()
   {
-    var table = window.document.getElementById("honeycomb")! as HTMLTableElement;
-    if(table.rows.length != 0)
+    var honeycomb = this.getHoneycomb();
+    if(this.checkHoneycombExist(honeycomb))
     {
-      table.rows[this.oldX].cells[this.oldY].setAttribute("style", "background-image: none");
+      honeycomb.rows[this.oldX].cells[this.oldY].setAttribute("style", "background-image: none");
     }
     this.x = 0;
     this.y = 0;
-    this.cardinality = "North";
+    this.cardinality = this.north;
+    this.urlImg = this.imgBeeNorth;
     this.clearWhereIsHeading();
+  }
+
+  private getHoneycomb() : HTMLTableElement
+  {
+    return window.document.getElementById("honeycomb")! as HTMLTableElement;
+  }
+
+  private checkHoneycombExist(honeycomb: HTMLTableElement) : boolean
+  {
+    return honeycomb.rows.length != 0;
   }
 
   checkHoneycombDimensionsXFront(e: any)
@@ -114,27 +130,27 @@ export class HoneycombComponent {
   {
     switch(this.cardinality) 
     { 
-      case "North": 
+      case this.north: 
       { 
-        this.cardinality = "South";
+        this.cardinality = this.south;
         this.urlImg = this.imgBeeSouth;
         break; 
       } 
-      case "South": 
+      case this.south: 
       { 
-        this.cardinality = "East";
+        this.cardinality = this.east;
         this.urlImg = this.imgBeeEast; 
         break; 
       }
-      case "East": 
+      case this.east: 
       { 
-        this.cardinality = "West";
+        this.cardinality = this.west;
         this.urlImg = this.imgBeeWest;
         break; 
       }  
       default: 
       { 
-        this.cardinality = "North";
+        this.cardinality = this.north;
         this.urlImg = this.imgBeeNorth; 
         break; 
       } 
@@ -151,12 +167,114 @@ export class HoneycombComponent {
     this.whereIsHeading = "";
   }
 
+  getLeftActualCardinality() : string
+  {
+    switch(this.cardinality) 
+    { 
+      case this.north: 
+      { 
+        this.urlImg = this.imgBeeWest; 
+        return this.west;
+      } 
+      case this.west: 
+      { 
+        this.urlImg = this.imgBeeSouth; 
+        return this.south; 
+      }
+      case this.south: 
+      { 
+        this.urlImg = this.imgBeeEast; 
+        return this.east;
+      }
+      default: 
+      { 
+        this.urlImg = this.imgBeeNorth; 
+        return this.north; 
+      } 
+    } 
+  }
+
+  getRightActualCardinality() : string
+  {
+    switch(this.cardinality) 
+    { 
+      case this.north: 
+      { 
+        this.urlImg = this.imgBeeEast; 
+        return this.east;
+      } 
+      case this.east: 
+      { 
+        this.urlImg = this.imgBeeSouth; 
+        return this.south;
+      }
+      case this.south: 
+      { 
+        this.urlImg = this.imgBeeWest; 
+        return this.west; 
+      }  
+      default: 
+      { 
+        this.urlImg = this.imgBeeNorth; 
+        return this.north;
+      } 
+    } 
+  }
+
   positionBee()
   {
-    var table = window.document.getElementById("honeycomb")! as HTMLTableElement;
-    table.rows[this.oldX].cells[this.oldY].setAttribute("style", "background-image: none");
-    table.rows[this.x].cells[this.y].setAttribute("style", "background-image: url(" + this.urlImg + ");background-repeat: no-repeat;background-position: center; background-size: contain");
-    this.oldX = this.x;
-    this.oldY = this.y;
+    this.moveBee(this.x, this.rows - this.y);
+  }
+
+  private moveBee(newX : number, newY: number)
+  {
+    var honeycomb = this.getHoneycomb();
+    honeycomb.rows[this.oldY].cells[this.oldX].setAttribute("style", "background-image: none");
+    honeycomb.rows[newY].cells[newX].setAttribute("style", "background-image: url(" + this.urlImg + ");background-repeat: no-repeat;background-position: center; background-size: contain");
+    this.oldX = newX;
+    this.oldY = newY;
+  }
+
+  finalPositionBee()
+  {
+    var canMove = true;
+    for (let i = 0; i < this.whereIsHeading.length && canMove; i++) 
+    {
+      const command = this.whereIsHeading.charAt(i);
+      if(command == 'L')
+      {
+        this.cardinality = this.getLeftActualCardinality();
+      }
+      else if(command == 'R')
+      {
+        this.cardinality = this.getRightActualCardinality();
+      }
+      else if(command == 'M')
+      {
+        switch(this.cardinality) 
+        { 
+          case this.north: 
+          { 
+            this.moveBee(this.oldX, this.oldY - 1);
+            break;
+          } 
+          case this.east: 
+          { 
+            this.moveBee(this.oldX + 1, this.oldY);
+            break;
+          }
+          case this.south: 
+          { 
+            this.moveBee(this.oldX, this.oldY + 1);
+            break;
+          }  
+          default: 
+          { 
+            this.moveBee(this.oldX - 1, this.oldY);
+            break;
+          } 
+        } 
+      }
+    }
   }
 }
