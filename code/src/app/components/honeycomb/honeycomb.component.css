@@ -4,37 +4,41 @@ body, html {
 
 .div_principal {
     position: absolute;
-    background-color: rgb(253, 255, 112);
-    width: 100%;
     height: 100%;
+    width: 100%;
+    overflow: auto;
+    background-color: rgb(253, 255, 112);
 }
 
 .div_honeycomb {
     position: absolute;
-    width: 1500px;
-    height: 880px;
-    top: 30px;
-    left: 30px;
+    height: 90%;
+    width: 77%;
     overflow-x: auto;
     overflow-y: auto;
+    top: 5%;
+    left: 2%;
 }
 
 .div_controls_honeycomb {
-    position: relative; 
+    position: absolute; 
+    height: 45%;
+    width: 17%;
+    overflow-x: auto;
+    overflow-y: auto;
     background-color: chocolate;
-    float: right;
-    padding: 10px;
-    width: 300px;
-    top: 30px;
-    right: 30px;
     outline: 2px solid white;
+    float: right;
+    top: 5%;
+    right: 2%;
+    padding: 10px;
 }
 
 table {
     position: relative;
-    float: left;
-    width : 100%; 
     height: 100%;
+    width : 100%; 
+    float: left;
 }
 
 .cell {
@@ -46,9 +50,9 @@ table {
 
 .label_title {
     position: relative;
+    height: 30px;
     font-weight: bold;
     font-size: 20px;
-    height: 30px;
     margin: 5px;
     border: 5px;
 }
@@ -67,9 +71,9 @@ table {
 
 .label_title_final_position {
     position: relative;
+    height: 30px;
     font-weight: bold;
     font-size: 20px;
-    height: 30px;
     top: 10px;
     margin: 5px;
     border: 5px;
@@ -77,20 +81,20 @@ table {
 
 .label_options {
     position: relative;
-    font-weight: bold;
-    color: white;
-    font-size: 14px;
     height: 30px;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
     margin: 5px;
     border: 5px;
 }
 
 .label_final_results {
     position: relative;
-    font-weight: bold;
-    color: white;
-    font-size: 14px;
     height: 30px;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
     top: 10px;
     margin: 5px;
     border: 5px;
@@ -98,12 +102,12 @@ table {
 
 .label_change_position {
     position: absolute;
+    width: 110px;
     overflow-x: auto;
     background-color: gainsboro;
-    font-weight: bold;
     color: black;
+    font-weight: bold;
     font-size: 14px;
-    width: 110px;
     padding: 5px;
     margin: 5px;
     border: 5px;
@@ -111,11 +115,11 @@ table {
 
 .label_final_position {
     position: relative;
-    background-color: gainsboro;
-    font-weight: bold;
-    color: black;
-    font-size: 14px;
     width: 30px;
+    background-color: gainsboro;
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
     top: 10px;
     padding: 5px;
     margin: 5px;
@@ -124,11 +128,11 @@ table {
 
 .label_final_orientation {
     position: relative;
-    background-color: gainsboro;
-    font-weight: bold;
-    color: black;
-    font-size: 14px;
     width: 50px;
+    background-color: gainsboro;
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
     top: 10px;
     padding: 5px;
     margin: 5px;
@@ -137,8 +141,8 @@ table {
 
 .input_dimensions_honeycomb {
     position: relative;
-    width: 60px;
     height: 30px;
+    width: 60px;
     padding: 5px;
     margin: 5px;
 }
