@@ -76,6 +76,30 @@ table {
     border: 5px;
 }
 
+.label_final_position {
+    position: relative;
+    background-color: gainsboro;
+    font-weight: bold;
+    color: black;
+    font-size: 14px;
+    width: 30px;
+    padding: 5px;
+    margin: 5px;
+    border: 5px;
+}
+
+.label_final_orientation {
+    position: relative;
+    background-color: gainsboro;
+    font-weight: bold;
+    color: black;
+    font-size: 14px;
+    width: 50px;
+    padding: 5px;
+    margin: 5px;
+    border: 5px;
+}
+
 .input_dimensions_honeycomb {
     position: relative;
     width: 60px;

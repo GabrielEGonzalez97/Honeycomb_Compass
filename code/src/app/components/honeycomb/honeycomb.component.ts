@@ -9,10 +9,6 @@ export class HoneycombComponent
 {
   colArray : number[] = [];
   rowArray: number[] = [];
-  north = "North";
-  south = "South";
-  west = "West";
-  east = "East";
   min = 0;
   max = 100;
   rows = 5;
@@ -21,6 +17,10 @@ export class HoneycombComponent
   y = 0;
   oldX = 0;
   oldY = 0;
+  north = "North";
+  south = "South";
+  west = "West";
+  east = "East";
   cardinality = this.north;
   whereIsHeading = "";
   imgBeeNorth = 'https://i.postimg.cc/2yZXhh5n/bee.png';
@@ -28,6 +28,9 @@ export class HoneycombComponent
   imgBeeEast = 'https://i.postimg.cc/J4bHd0Dx/bee-east.png';
   imgBeeWest = 'https://i.postimg.cc/xTrbRMCq/bee-west.png';
   urlImg = this.imgBeeNorth;
+  viewStartPositionSection = false;
+  viewChangePositionSection = false;
+  viewFinalPositionSection = false;
 
   constructor() { }
 
@@ -44,10 +47,13 @@ export class HoneycombComponent
     {
       this.rowArray.push(i);
     }
+    this.viewStartPositionSection = true;
   }
 
   private refreshControls()
   {
+    this.viewChangePositionSection = false;
+    this.viewFinalPositionSection = false;
     var honeycomb = this.getHoneycomb();
     if(this.checkHoneycombExist(honeycomb))
     {
@@ -107,8 +113,8 @@ export class HoneycombComponent
     }
     else if(e.target.value >= this.rows)
     {
-      e.target.value = this.rows - 1;
-      this.x = this.rows - 1;
+      e.target.value = this.rows;
+      this.x = this.rows;
     }
   }
 
@@ -121,8 +127,8 @@ export class HoneycombComponent
     }
     else if(e.target.value >= this.columns)
     {
-      e.target.value = this.columns - 1;
-      this.y = this.columns - 1;
+      e.target.value = this.columns;
+      this.y = this.columns;
     }
   }
 
@@ -224,6 +230,7 @@ export class HoneycombComponent
   positionBee()
   {
     this.moveBee(this.x, this.rows - this.y);
+    this.viewChangePositionSection = true;
   }
 
   private moveBee(newX : number, newY: number)
@@ -276,5 +283,6 @@ export class HoneycombComponent
         } 
       }
     }
+    this.viewFinalPositionSection = true;
   }
 }
