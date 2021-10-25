@@ -32,6 +32,7 @@ export class HoneycombComponent
   viewChangePositionSection = false;
   viewLabelChangePosition = false;
   viewFinalPositionSection = false;
+  viewErrorSection = false;
 
   constructor() { }
 
@@ -56,6 +57,7 @@ export class HoneycombComponent
     this.viewChangePositionSection = false;
     this.viewLabelChangePosition = false;
     this.viewFinalPositionSection = false;
+    this.viewErrorSection = false;
     var honeycomb = this.getHoneycomb();
     if(this.checkHoneycombExist(honeycomb))
     {
@@ -240,10 +242,23 @@ export class HoneycombComponent
   private moveBee(newX : number, newY: number)
   {
     var honeycomb = this.getHoneycomb();
-    honeycomb.rows[this.oldY].cells[this.oldX].setAttribute("style", "background-image: none");
-    honeycomb.rows[newY].cells[newX].setAttribute("style", "background-image: url(" + this.urlImg + ");background-repeat: no-repeat;background-position: center; background-size: contain");
-    this.oldX = newX;
-    this.oldY = newY;
+    if(this.oldY <= this.rows && this.oldX <= this.columns)
+    {
+      honeycomb.rows[this.oldY].cells[this.oldX].setAttribute("style", "background-image: none");
+    }
+
+    if((newY >= this.min && newY <= this.rows) && (newX >= this.min && newX <= this.columns))
+    {
+      this.viewErrorSection = false;
+      honeycomb.rows[newY].cells[newX].setAttribute("style", "background-image: url(" + this.urlImg + ");background-repeat: no-repeat;background-position: center; background-size: contain");
+      this.oldX = newX;
+      this.oldY = newY;
+    }
+    else
+    {
+      this.viewErrorSection = true;
+      this.viewChangePositionSection = false;
+    }
   }
 
   finalPositionBee()
@@ -287,6 +302,13 @@ export class HoneycombComponent
         } 
       }
     }
-    this.viewFinalPositionSection = true;
+    if(this.viewErrorSection)
+    {
+      this.viewFinalPositionSection = false;
+    }
+    else
+    {
+      this.viewFinalPositionSection = true;
+    }
   }
 }

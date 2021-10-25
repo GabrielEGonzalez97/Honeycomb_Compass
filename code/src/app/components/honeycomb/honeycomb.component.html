@@ -46,15 +46,18 @@
                 <button (click)="finalPositionBee()" class="button_see_final_position" type="button">See final position of the bee</button>
             </div>
             <div *ngIf="viewFinalPositionSection">
-                <label class="label_title">Final position of the bee</label>
+                <label class="label_title_final_position">Final position of the bee</label>
                 <div display= block>
-                    <label class="label_options">X:</label>
+                    <label class="label_final_results">X:</label>
                     <label class="label_final_position">{{oldX}}</label>
-                    <label class="label_options">Y:</label>
+                    <label class="label_final_results">Y:</label>
                     <label class="label_final_position">{{rows - oldY}}</label>
-                    <label class="label_options">Orientation:</label>
+                    <label class="label_final_results">Orientation:</label>
                     <label class="label_final_orientation">{{cardinality}}</label>
                 </div>
+            </div>
+            <div *ngIf="viewErrorSection">
+                <label class="label_title_error">Error: Out of the limits of honeycomb</label>
             </div>
         </div>
     </div>
