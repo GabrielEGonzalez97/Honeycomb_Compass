@@ -80,7 +80,7 @@ OS                 |     win32 x64
 
 Angular            |      12.1.5
  
-Package                          |               Version
+Package&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|               Version
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
