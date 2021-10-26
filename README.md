@@ -66,9 +66,7 @@ Angular was used for the frontend part. In it a component called honeycomb-compo
 To obtain the final position of the bee inside the honeycomb, a REST API was created in Flask, which receives the current position of the bee inside the honeycomb, where it is looking, and the established movement instructions, and from these calculates and returns the new position of the bee inside the honeycomb. 
 
 # :hammer: Versions used
-Name               |      Version
-
-- - - - - - - - - - - - - - - - - - - - - - -
+**Name**           |      **Version**
 
 Angular CLI        |      12.1.4
 
@@ -80,9 +78,8 @@ OS                 |     win32 x64
 
 Angular            |      12.1.5
  
-Package&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|               Version
 
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+**Package**                      |               **Version**
 
 @angular-devkit/architect        |               0.1201.4
 
