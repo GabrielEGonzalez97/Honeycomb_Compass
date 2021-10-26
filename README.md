@@ -66,30 +66,30 @@ Angular was used for the frontend part. In it a component called honeycomb-compo
 To obtain the final position of the bee inside the honeycomb, a REST API was created in Flask, which receives the current position of the bee inside the honeycomb, where it is looking, and the established movement instructions, and from these calculates and returns the new position of the bee inside the honeycomb. 
 
 # :hammer: Versions used
-   Name               |      Version
+Name               |      Version
 - - - - - - - - - - - - - - - - - - - - - - -
-   Angular CLI        |      12.1.4
-   Node               |      14.15.4
-   Package Manager    |    npm 6.14.10
-   OS                 |     win32 x64
-   Angular            |      12.1.5
+Angular CLI        |      12.1.4
+Node               |      14.15.4
+Package Manager    |    npm 6.14.10
+OS                 |     win32 x64
+Angular            |      12.1.5
  
-   Package                          |               Version
+Package                          |               Version
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-   @angular-devkit/architect        |               0.1201.4
-   @angular-devkit/build-angular    |               12.1.4
-   @angular-devkit/core             |               12.1.4
-   @angular-devkit/schematics       |               12.1.4
-   @angular/cli                     |               12.1.4
-   @schematics/angular              |               12.1.4
-   rxjs                             |               6.6.7
-   typescript                       |               4.3.5
-   Flask                            |               1.1.2
-   Flask-Cors                       |               3.0.10
-   Flask-Jsonpify                   |               1.5.0
-   Flask-RESTful                    |               0.3.9
-   Flask-SQLAlchemy                 |               2.4.0
-   Flask-WTF                        |               0.14.2
+@angular-devkit/architect        |               0.1201.4
+@angular-devkit/build-angular    |               12.1.4
+@angular-devkit/core             |               12.1.4
+@angular-devkit/schematics       |               12.1.4
+@angular/cli                     |               12.1.4
+@schematics/angular              |               12.1.4
+rxjs                             |               6.6.7
+typescript                       |               4.3.5
+Flask                            |               1.1.2
+Flask-Cors                       |               3.0.10
+Flask-Jsonpify                   |               1.5.0
+Flask-RESTful                    |               0.3.9
+Flask-SQLAlchemy                 |               2.4.0
+Flask-WTF                        |               0.14.2
 
 # :link: Instructions to run the project
 The application is hosted on https://honeycomb-compass.web.app/ 
