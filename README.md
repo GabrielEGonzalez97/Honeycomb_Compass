@@ -118,4 +118,7 @@ API query example: https://honeycomb-compass.herokuapp.com/final_position?xPosBe
 
 To run the project locally, standing on the path of the code folder in cmd, first you have to run the npm install command to install the modules and then the ng serve --o command to open the application locally.
 
-If you want to run the API locally, it must be placed inside the server.py script, which is inside /src/rest-api, the port=5002 parameter inside the app.run() call. Also in the honeycomb.component.ts file, which is in the path /src/app/components/honeycomb, the value of the REST_API_URL variable must be changed to 'http://127.0.0.1:5002/'
+If you want to run the API locally, it must be placed inside the server.py script (https://github.com/GabrielEGonzalez97/Honeycomb_Compass/blob/master/code/src/rest-api/server.py), the port=5002 parameter inside the app.run() call. Also in the honeycomb.component.ts file (https://github.com/GabrielEGonzalez97/Honeycomb_Compass/blob/master/code/src/app/components/honeycomb/honeycomb.component.ts), the value of the REST_API_URL variable must be changed to 'http://127.0.0.1:5002/'
+
+# :wrench: How to test the api?
+To test the api you have to run the file test.py (https://github.com/GabrielEGonzalez97/Honeycomb_Compass/blob/master/code/src/rest-api/test.py)
