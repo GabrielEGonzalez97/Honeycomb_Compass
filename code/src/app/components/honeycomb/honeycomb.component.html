@@ -3,7 +3,7 @@
         <div class="div_honeycomb">
             <table id="honeycomb">
                 <tr *ngFor="let col of rowArray; index as i">
-                    <td class="cell" *ngFor="let col of colArray; index as j"></td>
+                    <td class="cell" *ngFor="let col of colArray; index as j">[{{rowsSize - i}},{{j}}]</td>
                 </tr>
             </table>
         </div>

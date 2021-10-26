@@ -44,6 +44,7 @@ table {
 .cell {
     background-color: chocolate;
     border: 3px solid black;
+    color: white;
     vertical-align: top;
     display: table-cell;
 }

@@ -9,29 +9,29 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 export class HoneycombComponent
 {
-  //----------------------------Initializing variables----------------------------
-  //--------------Initializing variables to be used as read-only variables--------------
+  //----------------------------Initializing variables----------------------------//
+  //--------------Initializing variables to be used as read-only variables--------------//
   readonly REST_API_URL = 'https://honeycomb-compass.herokuapp.com/'; //API link used to obtain the final position of the bee in the honeycomb
   readonly MIN_DIMENSION = 0; //Honeycomb cannot have negative rows or columns
   readonly MAX_DIMENSION = 100; //A maximum limit of rows and columns that the panel can have is given
-  //-------Cardinalities to use-------
+  //-------Cardinalities to use-------//
   readonly NORTH = "North";
   readonly SOUTH = "South";
   readonly WEST = "West";
   readonly EAST = "East";
-  //-------Link to the urls that contain the images with the rotated positions of the bee-------
+  //-------Link to the urls that contain the images with the rotated positions of the bee-------//
   readonly URL_IMG_BEE_NORTH = 'https://i.postimg.cc/s2YhJnWD/bee-north.png';
   readonly URL_IMG_BEE_SOUTH = 'https://i.postimg.cc/43kcVCmS/bee-south.png';
   readonly URL_IMG_BEE_EAST = 'https://i.postimg.cc/wTrLxRHH/bee-east.png';
   readonly URL_IMG_BEE_WEST = 'https://i.postimg.cc/RZnfWCVt/bee-west.png';
 
-  //--------------Honeycomb dimensions--------------
+  //--------------Honeycomb dimensions--------------//
   colArray : number[] = []; //Array containing the value of the honeycomb columns
   rowArray: number[] = []; //Array containing the value of the honeycomb rows
   rowsSize = 5; //Number of rows the user wants the honeycomb to contain
   columnsSize = 5; //Number of columns the user wants the honeycomb to contain
 
-  //--------------Bee variables--------------
+  //--------------Bee variables--------------//
   actualXBeePosition = 0; //Current position of the bee in the column
   actualYBeePosition = 0; //Current position of the bee in the row
   oldXBeePosition = 0; //Previous position of the bee in the column
@@ -41,27 +41,27 @@ export class HoneycombComponent
     urlImg: this.URL_IMG_BEE_NORTH,
   }; 
 
-  //--------------String where the instructions entered by the user are stored--------------
+  //--------------String where the instructions entered by the user are stored--------------//
   directionsInstructions = "";
 
-  //--------------Booleans that let you know if certain sections of the controls area should be shown--------------
+  //--------------Booleans that let you know if certain sections of the controls area should be shown--------------//
   viewStartPositionSection = false;
   viewChangePositionSection = false;
   viewLabelChangePosition = false;
   viewFinalPositionSection = false;
   viewErrorSection = false;
 
-  //--------------JSON that contains the server's response to the API query--------------
+  //--------------JSON that contains the server's response to the API query--------------//
   serverData = JSON;
 
-  //----------------------------Constructor of the class----------------------------
+  //----------------------------Constructor of the class----------------------------//
   constructor(private httpClient: HttpClient) 
   { 
 
   }
 
-  //----------------------------Methods----------------------------
-  //--------------Set the honeycomb shape--------------
+  //----------------------------Methods----------------------------//
+  //--------------Set the honeycomb shape--------------//
   setShapeHoneycomb()
   {
     this.refreshControls();
@@ -78,16 +78,16 @@ export class HoneycombComponent
     this.viewStartPositionSection = true;
   }
 
-  //--------------The controls seen in the front are updated when resizing the honeycomb to avoid inconsistencies--------------
+  //--------------The controls seen in the front are updated when resizing the honeycomb to avoid inconsistencies--------------//
   private refreshControls()
   {
-    //-------The sections of the controls that depend on the dimensions of the honeycomb and the bee being in it are hidden-------
+    //-------The sections of the controls that depend on the dimensions of the honeycomb and the bee being in it are hidden-------//
     this.viewChangePositionSection = false;
     this.viewLabelChangePosition = false;
     this.viewFinalPositionSection = false;
     this.viewErrorSection = false;
 
-    //-------If the honeycomb exists and the previous position where the bee was is within the current dimensions of the honeycomb, then the image representing the bee in that position is deleted-------
+    //-------If the honeycomb exists and the previous position where the bee was is within the current dimensions of the honeycomb, then the image representing the bee in that position is deleted-------//
     var honeycomb = this.getHoneycomb();
     if(this.checkHoneycombExist(honeycomb)) 
     {
@@ -97,7 +97,7 @@ export class HoneycombComponent
       }
     }
 
-    //-------The variables associated with the bee are reset-------
+    //-------The variables associated with the bee are reset-------//
     this.actualXBeePosition = 0;
     this.actualYBeePosition = 0;
     this.cardinality = {
@@ -105,23 +105,23 @@ export class HoneycombComponent
       urlImg: this.URL_IMG_BEE_NORTH,
     }; 
 
-    //-------User-entered bee movement instructions are flushed-------
+    //-------User-entered bee movement instructions are flushed-------//
     this.clearDirectionsInstructions();
   }
 
-  //--------------Returns the table that represents the honeycomb in the front--------------
+  //--------------Returns the table that represents the honeycomb in the front--------------//
   private getHoneycomb() : HTMLTableElement
   {
     return window.document.getElementById("honeycomb")! as HTMLTableElement;
   }
 
-  //--------------It is checked if the honeycomb exists--------------
+  //--------------It is checked if the honeycomb exists--------------//
   private checkHoneycombExist(honeycomb: HTMLTableElement) : boolean
   {
     return honeycomb.rows.length != 0;
   }
 
-  //--------------It is checked if the value that the user enters in the front for the columns that the honeycomb will have is within the minimum and maximum limit allowed--------------
+  //--------------It is checked if the value that the user enters in the front for the columns that the honeycomb will have is within the minimum and maximum limit allowed--------------//
   checkHoneycombDimensionsXFront(e: any)
   {
     if(e.target.value < this.MIN_DIMENSION)
@@ -136,7 +136,7 @@ export class HoneycombComponent
     }
   }
 
-  //--------------It is checked if the value that the user enters in the front for the rows that the honeycomb will have is within the minimum and maximum limit allowed--------------
+  //--------------It is checked if the value that the user enters in the front for the rows that the honeycomb will have is within the minimum and maximum limit allowed--------------//
   checkHoneycombDimensionsYFront(e: any)
   {
     if(e.target.value < this.MIN_DIMENSION)
@@ -151,7 +151,7 @@ export class HoneycombComponent
     }
   }
 
-  //--------------It is checked if the value that the user enters in the front for the position of the bee in the column is within the minimum and maximum limit allowed--------------
+  //--------------It is checked if the value that the user enters in the front for the position of the bee in the column is within the minimum and maximum limit allowed--------------//
   checkPositionXBee(e: any)
   {
     if(e.target.value < this.MIN_DIMENSION)
@@ -166,7 +166,7 @@ export class HoneycombComponent
     }
   }
 
-  //--------------It is checked if the value that the user enters in the front for the position of the bee in the row is within the minimum and maximum limit allowed--------------
+  //--------------It is checked if the value that the user enters in the front for the position of the bee in the row is within the minimum and maximum limit allowed--------------//
   checkPositionYBee(e: any)
   {
     if(e.target.value < this.MIN_DIMENSION)
@@ -181,7 +181,7 @@ export class HoneycombComponent
     }
   }
 
-  //--------------The cardinality the bee is looking at is changed according to a previous cardinality--------------
+  //--------------The cardinality the bee is looking at is changed according to a previous cardinality--------------//
   setCardinality()
   {
     switch(this.cardinality.cardinality) 
@@ -221,7 +221,7 @@ export class HoneycombComponent
     } 
   }
 
-  //--------------The url of the image corresponding to the cardinality required for the bee is obtained--------------
+  //--------------The url of the image corresponding to the cardinality required for the bee is obtained--------------//
   private getUrlImg(cardinality: string): string
   {
     switch(cardinality) 
@@ -245,33 +245,33 @@ export class HoneycombComponent
     } 
   }
 
-  //--------------The new instruction desired by the user is added to the string containing the bee movement instructions--------------
+  //--------------The new instruction desired by the user is added to the string containing the bee movement instructions--------------//
   setDirectionsInstructions(newInstruction: string)
   {
     this.viewLabelChangePosition = true;
     this.directionsInstructions = this.directionsInstructions + newInstruction;
   }
 
-  //--------------User-entered bee movement instructions are flushed--------------
+  //--------------User-entered bee movement instructions are flushed--------------//
   clearDirectionsInstructions()
   {
     this.viewLabelChangePosition = false;
     this.directionsInstructions = "";
   }
 
-  //--------------The bee is placed in the initial position desired by the user--------------
+  //--------------The bee is placed in the initial position desired by the user--------------//
   positionBee()
   {
-    this.moveBee(this.actualXBeePosition, this.rowsSize - this.actualYBeePosition);
+    this.moveBee(this.actualXBeePosition, this.rowsSize - this.actualYBeePosition); //The number of rows is subtracted by the current position of the bee because the position (0,0) is located in the lower left corner of the honeycomb
     this.viewChangePositionSection = true;
   }
 
-  //--------------The bee is moved to a new position within the honeycomb--------------
+  //--------------The bee is moved to a new position within the honeycomb--------------//
   private moveBee(newX : number, newY: number)
   {
     this.viewErrorSection = false;
 
-    //-------if the previous position where the bee was is within the current dimensions of the honeycomb, then the image representing the bee in that position is deleted-------
+    //-------if the previous position where the bee was is within the current dimensions of the honeycomb, then the image representing the bee in that position is deleted-------//
     var honeycomb = this.getHoneycomb();
     if(this.isValidPosition(this.oldXBeePosition, this.oldYBeePosition))
     {
@@ -283,19 +283,19 @@ export class HoneycombComponent
     this.oldYBeePosition = newY;
   }
 
-  //--------------It is verified that the required position is within the established dimensions of the honeycomb--------------
+  //--------------It is verified that the required position is within the established dimensions of the honeycomb--------------//
   private isValidPosition(x: number, y: number) 
   {
     return ((y >= this.MIN_DIMENSION && y <= this.rowsSize) && (x >= this.MIN_DIMENSION && x <= this.columnsSize))
   }
 
-  //--------------The bee is moved to the final position according to the movement instructions entered by the user--------------
+  //--------------The bee is moved to the final position according to the movement instructions entered by the user--------------//
   finalPositionBee()
   {
     //Initialize Params Object
     let params = new HttpParams();
 
-    //Begin assigning parameters
+    //Assigning parameters
     params = params.append('xPosBee', this.oldXBeePosition);
     params = params.append('yPosBee', this.rowsSize - this.oldYBeePosition);
     params = params.append('rowsSize', this.rowsSize);
@@ -322,7 +322,7 @@ export class HoneycombComponent
         this.viewErrorSection = true;
       }
 
-      //-------If there is an error, the labels that show the final position are not shown, but an error is shown that the bee went outside the established limits of the honeycomb-------
+      //-------If there is an error, the labels that show the final position are not shown, but an error is shown that the bee went outside the established limits of the honeycomb-------//
       if(this.viewErrorSection)
       {
         this.viewFinalPositionSection = false;
